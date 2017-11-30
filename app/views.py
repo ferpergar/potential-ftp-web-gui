@@ -10,8 +10,8 @@ def login():
     if form.validate_on_submit():
         flash('Connection requested for "%s"' %
               (form.openid.data))
-        
-        return redirect('/index')
+        if form.openid.data == 'ftp://localhost':
+            return redirect('/index')
     return render_template('login.html', 
                            title='Sign In',
                            form=form)
