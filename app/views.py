@@ -24,7 +24,7 @@ def login():
 @app.route('/index')
 
 def index():
-	user = {'nickname': 'Miguel'}  # fake user
+	user = {'nickname': 'FerPer'}  # fake user
 	return render_template('index.html',
                            title='Home',
                            user=user)
