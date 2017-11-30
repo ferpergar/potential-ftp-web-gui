@@ -1,5 +1,6 @@
 from flask import render_template, flash, redirect, request
 from app import app
+from ftplib import FTP
 from .forms import LoginForm
 
 @app.route('/')
@@ -10,8 +11,10 @@ def login():
     if form.validate_on_submit():
         flash('Connection requested for "%s"' %
               (form.openid.data))
-        if form.openid.data == 'ftp://localhost':
-            return redirect('/index')
+        if form.openid.data == 'localhost':
+            ftp = FTP(form.openid.data)
+            if ftp != 0:
+                return redirect('/index')
     return render_template('login.html', 
                            title='Sign In',
                            form=form)
