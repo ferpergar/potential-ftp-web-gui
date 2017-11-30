@@ -14,7 +14,8 @@ def login():
         if form.openid.data == 'localhost':
             ftp = FTP(form.openid.data)
             if ftp != 0:
-                return redirect('/index')
+                if ftp.login(form.user.data, form.passwd.data):
+                    return redirect('/index')
     return render_template('login.html', 
                            title='Sign In',
                            form=form)
