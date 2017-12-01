@@ -1,7 +1,9 @@
-from flask import render_template, flash, redirect, request
+from flask import render_template, flash, redirect, request, url_for, session
 from app import app
 from ftplib import FTP
 from .forms import LoginForm
+
+session = {'ftp': FTP, 'user': {'nickname': 'FerPer'}}
 
 @app.route('/')
 @app.route('/login', methods=['GET', 'POST'])
@@ -13,9 +15,12 @@ def login():
               (form.openid.data))
         if form.openid.data == 'localhost':
             ftp = FTP(form.openid.data)
+            session['ftp'] = ftp
             if ftp != 0:
                 if ftp.login(form.user.data, form.passwd.data):
-                    return redirect('/index')
+                    session['user'] = {'nickname': form.user.data}
+                    return redirect('/ftpserver')
+                    #return redirect('/index')
     return render_template('login.html', 
                            title='Sign In',
                            form=form)
@@ -26,5 +31,15 @@ def login():
 def index():
 	user = {'nickname': 'FerPer'}  # fake user
 	return render_template('index.html',
+                           title='Home',
+                           user=user)
+
+@app.route('/ftpserver')
+
+def ftpserver():
+  user = session['user']  # fake user
+  ftp = session['ftp']
+  ftp.dir()
+  return render_template('index.html',
                            title='Home',
                            user=user)
