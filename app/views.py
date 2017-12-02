@@ -39,7 +39,14 @@ def index():
 def ftpserver():
   user = session['user']  # fake user
   ftp = session['ftp']
-  ftp.dir()
+  data = []  
+  ftp.dir(data.append)
+  i=0
+  name = []
+  #for names in data:
+  #  name = names
+
   return render_template('index.html',
                            title='Home',
-                           user=user)
+                           user=user,
+                           data=data)
