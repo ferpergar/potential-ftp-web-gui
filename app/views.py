@@ -1,9 +1,11 @@
-from flask import render_template, flash, redirect, request, url_for, session
+from flask import render_template, flash, redirect, session
 from app import app
 from ftplib import FTP
 from .forms import LoginForm
+from operator import itemgetter
 
-session = {'ftp': FTP, 'user': {'nickname': 'FerPer'}}
+
+session = {'ftp': FTP, 'user': {'nickname': 'Anonymous'}}
 
 @app.route('/')
 @app.route('/login', methods=['GET', 'POST'])
@@ -20,33 +22,26 @@ def login():
                 if ftp.login(form.user.data, form.passwd.data):
                     session['user'] = {'nickname': form.user.data}
                     return redirect('/ftpserver')
-                    #return redirect('/index')
-    return render_template('login.html', 
+    return render_template('login.html',
                            title='Sign In',
                            form=form)
-    
 
 @app.route('/index')
 
 def index():
-	user = {'nickname': 'FerPer'}  # fake user
-	return render_template('index.html',
+    user = {'nickname': 'FerPer'}  # fake user
+    return render_template('index.html',
                            title='Home',
                            user=user)
 
 @app.route('/ftpserver')
 
 def ftpserver():
-  user = session['user']  # fake user
-  ftp = session['ftp']
-  data = []  
-  ftp.dir(data.append)
-  i=0
-  name = []
-  #for names in data:
-  #  name = names
-
-  return render_template('index.html',
+    user = session['user']  # fake user
+    ftp = session['ftp']
+    data = []
+    data = ftp.nlst()
+    return render_template('index.html',
                            title='Home',
                            user=user,
                            data=data)
