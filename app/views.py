@@ -14,13 +14,11 @@ def login():
     if form.validate_on_submit():
         flash('Connection requested for "%s"' %
               (form.openid.data))
-        if form.openid.data == 'localhost':
-            ftp = FTP(form.openid.data)
-            session['ftp'] = ftp
-            if ftp != 0:
-                if ftp.login(form.user.data, form.passwd.data):
-                    session['user'] = {'nickname': form.user.data}
-                    return redirect('/ftpserver')
+        ftp = FTP(form.openid.data)
+        session['ftp'] = ftp
+        ftp.login(form.user.data, form.passwd.data)
+        session['user'] = {'nickname': form.user.data}
+        return redirect('/ftpserver')
     return render_template('login.html',
                            title='Sign In',
                            form=form)
