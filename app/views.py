@@ -1,15 +1,14 @@
-from flask import render_template, flash, redirect, session
+from flask import render_template, flash, redirect
 from app import app
 from ftplib import FTP
 from .forms import LoginForm
-from operator import itemgetter
 
 
 session = {'ftp': FTP, 'user': {'nickname': 'Anonymous'}}
 
+
 @app.route('/')
 @app.route('/login', methods=['GET', 'POST'])
-
 def login():
     form = LoginForm()
     if form.validate_on_submit():
@@ -26,16 +25,16 @@ def login():
                            title='Sign In',
                            form=form)
 
-@app.route('/index')
 
+@app.route('/index')
 def index():
     user = {'nickname': 'FerPer'}  # fake user
     return render_template('index.html',
                            title='Home',
                            user=user)
 
-@app.route('/ftpserver')
 
+@app.route('/ftpserver')
 def ftpserver():
     user = session['user']  # fake user
     ftp = session['ftp']
