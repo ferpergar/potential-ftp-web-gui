@@ -33,14 +33,6 @@ def login():
                            form=form)
 
 
-@app.route('/index')
-def index():
-    user = {'nickname': 'FerPer'}  # fake user
-    return render_template('index.html',
-                           title='Home',
-                           user=user)
-
-
 @app.route('/ftpserver')
 def ftpserver():
     user = session['user']  # fake user
