@@ -35,15 +35,19 @@ def login():
 
 @app.route('/ftpserver')
 def ftpserver():
-    user = session['user']  # fake user
+    user = session['user']
     ftp = session['ftp']
-    data = {'name': [], 'permissions': []}
     permission = []
+    permissions = []
+    names = []
     ftp.dir(permission.append)
-    data['name'] = ftp.nlst()
+    print(permission)
     for p in permission:
-        p, empty = p.split(' ', 1)
-        data['permissions'].append(p)
+        name = ''
+        p, _, _, _, _, _, _, _, name = p.split()
+        permissions.append(p)
+        names.append(name)
+    data = dict(zip(names, permissions))
     return render_template('index.html',
                            title='Home',
                            user=user,
