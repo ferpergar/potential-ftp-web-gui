@@ -2,6 +2,11 @@
 {% block content %}
     <h1>Hi, {{ user.nickname }}!</h1>
     {% for n,p in data.iteritems() %}
-    <p>{{n}}</p>
+	    {% if p[0] == 'd' %}
+	    	<p><a href="" type="cwd" value="{{n}}">{{n}}</a></p>
+	    {% endif %}
+	    {% if p[0] == '-' %}
+	    	<p><a href="" type="dnld" value="{{n}}">{{n}}</a></p>
+	    {% endif %}
     {% endfor %}
 {% endblock %}
