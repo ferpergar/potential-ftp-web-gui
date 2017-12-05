@@ -37,8 +37,13 @@ def login():
 def ftpserver():
     user = session['user']  # fake user
     ftp = session['ftp']
-    data = []
-    data = ftp.nlst()
+    data = {'name': [], 'permissions': []}
+    permission = []
+    ftp.dir(permission.append)
+    data['name'] = ftp.nlst()
+    for p in permission:
+        p, empty = p.split(' ', 1)
+        data['permissions'].append(p)
     return render_template('index.html',
                            title='Home',
                            user=user,
