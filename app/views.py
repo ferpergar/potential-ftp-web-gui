@@ -44,7 +44,9 @@ def ftpserver():
     print(permission)
     for p in permission:
         name = ''
-        p, _, _, _, _, _, _, _, name = p.split()
+        split = p.split()
+        p = split[0]
+        name = split[-1]
         permissions.append(p)
         names.append(name)
     data = dict(zip(names, permissions))
