@@ -41,7 +41,6 @@ def ftpserver():
     permissions = []
     names = []
     ftp.dir(permission.append)
-    print(permission)
     for p in permission:
         name = ''
         split = p.split()
